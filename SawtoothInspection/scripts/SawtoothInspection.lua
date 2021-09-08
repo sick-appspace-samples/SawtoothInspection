@@ -1,5 +1,4 @@
 
-
 print('AppEngine Version: ' .. Engine.getVersion())
 
 local DELAY = 1500 -- ms between visualization steps for demonstration purpose
