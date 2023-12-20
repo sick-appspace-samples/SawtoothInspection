@@ -10,27 +10,18 @@ local viewer2 = View.create("view2")
 
 -- Setting up graphical overlay attributes
 local edgeSampleDeco = View.ShapeDecoration.create()
-edgeSampleDeco:setLineColor(75, 75, 255) -- Blue
-edgeSampleDeco:setLineWidth(4)
+edgeSampleDeco:setLineWidth(4):setLineColor(75, 75, 255) -- Blue
 
 local fittedLineDeco = View.ShapeDecoration.create()
-fittedLineDeco:setLineColor(0, 255, 0) -- Blue
-fittedLineDeco:setLineWidth(4)
+fittedLineDeco:setLineWidth(4):setLineColor(0, 255, 0) -- Blue
 
-local pointDecoOk = View.ShapeDecoration.create()
-pointDecoOk:setLineColor(0, 255, 0) -- Green
-pointDecoOk:setPointType('DOT')
-pointDecoOk:setPointSize(30)
+local pointDecoOk = View.ShapeDecoration.create():setLineColor(0, 255, 0) -- Green
+pointDecoOk:setPointType('DOT'):setPointSize(30)
 
-local pointDecoDefect = View.ShapeDecoration.create()
-pointDecoDefect:setLineColor(255, 0, 0) -- Red
-pointDecoDefect:setLineWidth(4)
-pointDecoDefect:setPointType('DOT')
-pointDecoDefect:setPointSize(30)
+local pointDecoDefect = View.ShapeDecoration.create():setLineColor(255, 0, 0) -- Red
+pointDecoDefect:setLineWidth(4):setPointType('DOT'):setPointSize(30)
 
-local textDecoration = View.TextDecoration.create()
-textDecoration:setPosition(30, 50)
-textDecoration:setSize(50)
+local textDecoration = View.TextDecoration.create():setPosition(30, 50):setSize(50)
 
 --End of Global Scope-----------------------------------------------------------
 
@@ -51,7 +42,7 @@ local function InspectTooths(im, probeLine, minHeight)
   local minPos, minVal = Profile.findLocalExtrema(distProfileLP, "MIN", 31, 2.0)
   local minPoints = Point.create(minPos, minVal)
   local minProfile = Profile.createFromVector(minVal, minPos)
-  
+
   -- Fit line to the valleys
   local CF = Profile.CurveFitter.create()
   --CF:setFitMode("RANSAC")
@@ -94,7 +85,7 @@ local function InspectTooths(im, probeLine, minHeight)
 end
 
 local function main()
-  local images = {}  
+  local images = {}
   images[1] = Image.load('resources/noDefect1.png')
   images[2] = Image.load('resources/noDefect2.png')
   images[3] = Image.load('resources/defect.png')
@@ -111,10 +102,7 @@ local function main()
     -- Inspect tooths
     local defectsImPos = InspectTooths(img, line, minToothHeight)
 
-    local defectsImMarker = {}
-    for iDefect = 1, #defectsImPos do
-      defectsImMarker[#defectsImMarker + 1] = Shape.createCircle(defectsImPos[iDefect], 30)
-    end
+    local defectsImMarker = Shape.createCircle(defectsImPos, 30)
 
     -- Visualize results
     viewer:clear()
@@ -129,7 +117,7 @@ local function main()
       viewer:addText('Defect tooth found!', textDecoration)
     end
     viewer:present()
-    
+
     Script.sleep(DELAY) -- for demonstration purpose only
   end
   print('App finished.')
